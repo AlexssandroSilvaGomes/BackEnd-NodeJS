@@ -24,24 +24,24 @@ var entradaDeDados = readline.createInterface({
 */
 
 //Função de callback para entrar o nome do aluno
-entradaDeDados.question('Digite seu nome: \n', function(nome){
+entradaDeDados.question('Digite seu nome: \n', function (nome) {
     //Recebe o valor digitado pelo teclado
     let nomeAluno = nome;
 
     //Função de callback para entrar a nota1
-    entradaDeDados.question('Digite a nota1: \n', function(nota1){
+    entradaDeDados.question('Digite a nota1: \n', function (nota1) {
         let valor1 = nota1;
 
         //Função de callback para entrar a nota2
-        entradaDeDados.question('Digite a nota2: \n', function(nota2){
+        entradaDeDados.question('Digite a nota2: \n', function (nota2) {
             let valor2 = nota2;
 
             //Função de callback para entrar a nota3
-            entradaDeDados.question('Digite a nota3: \n', function(nota3){
+            entradaDeDados.question('Digite a nota3: \n', function (nota3) {
                 let valor3 = nota3;
 
                 //Função de callback para entrar a nota4
-                entradaDeDados.question('Digite a nota4: \n', function(nota4){
+                entradaDeDados.question('Digite a nota4: \n', function (nota4) {
                     let valor4 = nota4;
 
                     /*
@@ -76,13 +76,20 @@ entradaDeDados.question('Digite seu nome: \n', function(nome){
                     let somaNotas = parseFloat(valor1) + parseFloat(valor2) + parseFloat(valor3) + parseFloat(valor4);
                     let media = somaNotas / 4;
 
-                    if(valor1 == '' || valor2 == '' || valor3 == '' || valor4 == '') {
-                        
+
+                    //validação para entrada vazia
+                    if (valor1 == '' || valor2 == '' || valor3 == '' || valor4 == '') {
+
                         console.log('Todas as caixas precisam ser preenchidas!');
 
-                    } else if(isNaN(valor1) || isNaN(valor2) || isNaN(valor3) || isNaN(valor4)) {
+                        //validação para entrada de texto (inválida)
+                    } else if (isNaN(valor1) || isNaN(valor2) || isNaN(valor3) || isNaN(valor4)) {
 
                         console.log('As notas precisam receber números, não textos!');
+
+                    } else if (valor1 < 0 || valor1 > 10 || valor2 < 0 || valor2 > 10 || valor3 < 0 || valor3 > 10 || valor4 < 0 || valor4 > 10) {
+
+                        console.log('Os números precisam estar entre 0 e 10!')
 
                     } else {
 
@@ -91,10 +98,21 @@ entradaDeDados.question('Digite seu nome: \n', function(nome){
                         console.log('Digite sua nota 2: \n' + valor2);
                         console.log('Digite sua nota 3: \n' + valor3);
                         console.log('Digite sua nota 4: \n' + valor4);
-                        console.log(nome + ', sua média é: \n' + media);
+                        console.log(nome + ', sua média é: \n' + media.toFixed(2));
+                        
+                        if (media >= 7) {
+
+                            console.log('Status: Aprovado! \n');
+
+                        } else {
+
+                            console.log('Status: Reprovado! \n');
+
+                        }
+                        
 
                     };
-                    
+
                 });
             });
         });
