@@ -12,6 +12,7 @@ function calculadora(numero1, numero2, tipoCalculo) {
     let valor2 = parseFloat(numero2);
     let operacao = tipoCalculo.toUpperCase();
     let resultado;
+    let status = true;
 
     if (operacao == 'SOMAR') {
 
@@ -30,24 +31,24 @@ function calculadora(numero1, numero2, tipoCalculo) {
         if (valor2 == 0) {
 
             console.log('ERRO: Não é possível realizar a divisão por 0');
+            status = false;
 
         } else {
 
             resultado = parseFloat(valor1) / parseFloat(valor2);
-            //Finaliza o objeto de entrada de dados (sai do programa)
-            entradaDados.close();
 
         };
 
     } else {
 
         console.log('ERRO: A escolha de operação foi inválida!');
+        status = false;
 
     };
 
 
     //Validação para tratar quando a variável resultado não for processada por algum problema
-    if (resultado == undefined) {
+    if (resultado == undefined && status == false) {
 
         return false;
 
