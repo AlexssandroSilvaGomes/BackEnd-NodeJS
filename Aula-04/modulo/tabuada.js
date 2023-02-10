@@ -42,7 +42,7 @@ const TabuadaCalc = function (multiplicando, maxMultiplicador) {
     }
 
     return status;
-
+    
 }
 
 console.log(TabuadaCalc(5, 10))
