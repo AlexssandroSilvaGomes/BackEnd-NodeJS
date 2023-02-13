@@ -23,11 +23,11 @@ const mediaExame = function (valorMedia, valorExame) {
 
     } else {
     
-        console.log(mediaExame);
+       status = true;
 
     }
 
-    return status;
+    return mediaExame;
 
 }
 

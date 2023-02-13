@@ -29,12 +29,12 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
     } else if (!(isNaN(aluno))) {
 
         console.log('ERRO: O espaço em branco só pode conter letras.');
-        
+
     } else {
 
         entradaDados.question('Gênero do(a) Aluno(a): [ MASCULINO | FEMININO ] \n', function (generoAluno) {
 
-            let genA = generoAluno.toUpperCase;
+            let genA = generoAluno.toUpperCase();
 
             if (genA == '') {
 
@@ -53,25 +53,25 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
                     if (nomeProf == '') {
 
                         console.log('ERRO: O espaço não pode estar em branco.');
-                
+
                     } else if (!(isNaN(nomeProf))) {
-                
+
                         console.log('ERRO: O espaço em branco só pode conter letras.');
-                        
+
                     } else {
 
                         entradaDados.question('Gênero do(a) Professor(a): [ MASCULINO | FEMININO ] \n', function (generoProfessor) {
 
-                            let genP = generoProfessor;
+                            let genP = generoProfessor.toUpperCase();
 
                             if (genP == '') {
 
                                 console.log('ERRO: O espaço não pode estar em branco.');
-                
+
                             } else if (!(isNaN(genP))) {
-                
+
                                 console.log('ERRO: O espaço em branco só pode conter letras.');
-                
+
                             } else {
 
                                 entradaDados.question('Nome do Curso: \n', function (nomeCurso) {
@@ -81,11 +81,11 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
                                     if (curso == '') {
 
                                         console.log('ERRO: O espaço não pode estar em branco.');
-                                
+
                                     } else if (!(isNaN(curso))) {
-                                
+
                                         console.log('ERRO: O espaço em branco só pode conter letras.');
-                                        
+
                                     } else {
 
                                         entradaDados.question('Nome da Disciplina: \n', function (nomeDisciplina) {
@@ -95,26 +95,26 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
                                             if (nomeDisc == '') {
 
                                                 console.log('ERRO: O espaço não pode estar em branco.');
-                                        
+
                                             } else if (!(isNaN(nomeDisc))) {
-                                        
+
                                                 console.log('ERRO: O espaço em branco só pode conter letras.');
-                                                
+
                                             } else {
 
                                                 entradaDados.question('Digite a primeira nota: \n', function (nota1) {
 
                                                     let num1 = parseFloat(nota1.replace(',', '.'));
 
-                                                    entradaDados.question('Digite a primeira nota: \n', function (nota2) {
+                                                    entradaDados.question('Digite a segunda nota: \n', function (nota2) {
 
                                                         let num2 = parseFloat(nota2.replace(',', '.'));
 
-                                                        entradaDados.question('Digite a primeira nota: \n', function (nota3) {
+                                                        entradaDados.question('Digite a terceira nota: \n', function (nota3) {
 
                                                             let num3 = parseFloat(nota3.replace(',', '.'));
 
-                                                            entradaDados.question('Digite a primeira nota: \n', function (nota4) {
+                                                            entradaDados.question('Digite a quarta nota: \n', function (nota4) {
 
                                                                 let num4 = parseFloat(nota4.replace(',', '.'));
                                                                 let resultado;
@@ -122,19 +122,14 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
                                                                 let proA;
                                                                 let proP;
 
-                                                                switch (genP) {
-                                                                    case 'MASCULINO':
-                                                                        
-                                                                        proP = 'Professor';
-                                                                        break;
+                                                                if (genP == 'MASCULINO') {
 
-                                                                    case 'FEMININO':
+                                                                    proP = 'Professor'
 
-                                                                        proP = 'Professora';
-                                                                        break;
-                                                                
-                                                                    default:
-                                                                        break;
+                                                                } else {
+
+                                                                    proP = 'Professora'
+
                                                                 }
 
                                                                 if (num1 == '' || num2 == '' || num3 == '' || num4 == '') {
@@ -159,45 +154,26 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
 
                                                                     if (resultado >= 70) {
 
-                                                                        switch (genA) {
-                                                                            case 'MASCULINO':
+                                                                        if (genA == 'MASCULINO') {
 
-                                                                                proA = 'O aluno';
-                                                                                status = 'APROVADO';
+                                                                            proA = 'O Aluno'
+                                                                            status = 'APROVADO'
 
-                                                                                break;
-                                                                            
-                                                                            case 'FEMININO':
+                                                                        } else {
 
-                                                                                proA = 'A aluna';
-                                                                                status = 'APROVADA';
-
-                                                                                break;
-
-                                                                            default:
-                                                                                break;  
+                                                                            proA = 'A Aluna'
+                                                                            status = 'APROVADA'
                                                                         }
 
-                                                                    } else if (resultado < 50) {
+                                                                        console.log(
+                                                                            '\n' + proA + ' ' + aluno + ' foi ' + status + ' na disciplina ' + nomeDisc + '. \n' +
+                                                                            'Curso: ' + curso + '\n' +
+                                                                            proP + ': ' + nomeProf + '\n' +
+                                                                            'Notas: ' + num1 + ', ' + num2 + ', ' + num3 + ', ' + num4 + '. \n' +
+                                                                            'Média Final: ' + resultado + '\n'
+                                                                        );
 
-                                                                        switch (genA) {
-                                                                            case 'MASCULINO':
-
-                                                                                proA = 'O aluno';
-                                                                                status = 'REPROVADO';
-
-                                                                                break;
-                                                                            
-                                                                            case 'FEMININO':
-
-                                                                                proA = 'A aluna';
-                                                                                status = 'REPROVADA';
-
-                                                                                break;
-
-                                                                            default:
-                                                                                break;  
-                                                                        }
+                                                                        entradaDados.close();
 
                                                                     } else if (resultado >= 50 && resultado < 70) {
 
@@ -208,114 +184,121 @@ entradaDados.question('Nome do Aluno: \n', function (nomeAluno) {
                                                                             if (notaExame == '') {
 
                                                                                 console.log('ERRO: O espaço não pode estar em branco.');
-                                                                        
+
                                                                             } else if (isNaN(notaExame)) {
-                                                                        
+
                                                                                 console.log('ERRO: O espaço em branco só pode conter números.');
-                                                                                
+
                                                                             } else {
 
                                                                                 let resExame = calculoExame.mediaExame(resultado, notaExame);
                                                                                 if (resExame >= 60) {
 
-                                                                                    switch (genA) {
-                                                                                        case 'MASCULINO':
-            
-                                                                                            proA = 'O aluno';
-                                                                                            status = 'APROVADO';
-            
-                                                                                            break;
-                                                                                        
-                                                                                        case 'FEMININO':
-            
-                                                                                            proA = 'A aluna';
-                                                                                            status = 'APROVADA';
-            
-                                                                                            break;
-            
-                                                                                        default:
-                                                                                            break;  
+                                                                                    if (genA == 'MASCULINO') {
+
+                                                                                        proA = 'O Aluno'
+                                                                                        status = 'APROVADO'
+
+                                                                                    } else {
+
+                                                                                        proA = 'A Aluna'
+                                                                                        status = 'APROVADA'
                                                                                     }
+
+                                                                                    console.log(
+                                                                                        '\n' + proA + ' ' + aluno + ' foi ' + status + ' na disciplina ' + nomeDisc + '. \n' +
+                                                                                        'Curso: ' + curso + '\n' +
+                                                                                        proP + ': ' + nomeProf + '\n' +
+                                                                                        'Notas: ' + num1 + ', ' + num2 + ', ' + num3 + ', ' + num4 + '. \n' +
+                                                                                        'Média Final: ' + resultado
+                                                                                    );
+                                                                                    console.log('Média final do exame: ' + resExame);
+                                                                                    entradaDados.close();
 
                                                                                 } else {
 
-                                                                                    switch (genA) {
-                                                                                        case 'MASCULINO':
-            
-                                                                                            proA = 'O aluno';
-                                                                                            status = 'REPROVADO';
-            
-                                                                                            break;
-                                                                                        
-                                                                                        case 'FEMININO':
-            
-                                                                                            proA = 'A aluna';
-                                                                                            status = 'REPROVADA';
-            
-                                                                                            break;
-            
-                                                                                        default:
-                                                                                            break;  
+                                                                                    if (genA == 'MASCULINO') {
+
+                                                                                        proA = 'O Aluno'
+                                                                                        status = 'REPROVADO'
+
+                                                                                    } else {
+
+                                                                                        proA = 'A Aluna'
+                                                                                        status = 'REPROVADA'
                                                                                     }
 
-                                                                                }
+                                                                                    console.log(
+                                                                                        '\n' + proA + ' ' + aluno + ' foi ' + status + ' na disciplina ' + nomeDisc + '. \n' +
+                                                                                        'Curso: ' + curso + '\n' +
+                                                                                        proP + ': ' + nomeProf + '\n' +
+                                                                                        'Notas: ' + num1 + ', ' + num2 + ', ' + num3 + ', ' + num4 + '. \n' +
+                                                                                        'Média Final: ' + resultado
+                                                                                    );
+                                                                                    console.log('Média final do exame: ' + resExame);
+                                                                                    entradaDados.close();
 
-                                                                            }
+                                                                                };
 
-                                                                        })
+                                                                            };
+
+                                                                        });
 
                                                                     } else {
 
-                                                                        if (resultado !== false) {
+                                                                        if (genA == 'MASCULINO') {
 
-                                                                            console.log(
-                                                                                `${proA} ${aluno} foi ${status} na disciplina ${nomeDisc}.
-                                                                                Curso: ${curso}
-                                                                                ${proP}: ${nomeProf}
-                                                                                Notas: ${num1}, ${num2}, ${num3}, ${num4}
-                                                                                Média Final: ${resultado} \n`
-                                                                            );
-                                                                            entradaDados.close();
-                                                            
+                                                                            proA = 'O Aluno'
+                                                                            status = 'REPROVADO'
+
                                                                         } else {
-                                                            
-                                                                            //Finaliza o objeto de entrada de dados (sai do programa)
-                                                                            entradaDados.close();
-                                                                        };
+
+                                                                            proA = 'A Aluna'
+                                                                            status = 'REPROVADA'
+                                                                        }
+
+                                                                        console.log(
+                                                                            '\n' + proA + ' ' + aluno + ' foi ' + status + ' na disciplina ' + nomeDisc + '. \n' +
+                                                                            'Curso: ' + curso + '\n' +
+                                                                            proP + ': ' + nomeProf + '\n' +
+                                                                            'Notas: ' + num1 + ', ' + num2 + ', ' + num3 + ', ' + num4 + '. \n' +
+                                                                            'Média Final: ' + resultado + '\n'
+                                                                        );
+                                                                        entradaDados.close();
 
                                                                     }
 
-                                                                }
-            
-                                                            })
-        
-                                                        })
-    
-                                                    })
+                                                                };
 
-                                                })
+                                                            });
 
-                                            }
+                                                        });
 
-                                        })
+                                                    });
 
-                                    }
+                                                });
 
-                                })
+                                            };
 
-                            }
+                                        });
 
-                        })
+                                    };
 
-                    }
+                                });
 
-                })
+                            };
 
-            }
+                        });
 
+                    };
 
-        })
-    }
+                });
+
+            };
 
 
-})
+        });
+    };
+
+
+});
