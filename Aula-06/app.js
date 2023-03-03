@@ -296,62 +296,62 @@ const listagemProdutos = () => {
 
     // console.log(listProdutosArray.produtos.cores.length)
 
-    for (let i = 0; i < listProdutosJSON.produtos.length; i++) {
+    // for (let i = 0; i < listProdutosJSON.produtos.length; i++) {
 
-        console.log('Nome: ' + listProdutosJSON.produtos[i].nome)
-        console.log('Marca: ' + listProdutosJSON.produtos[i].marca)
-        console.log('Valor: ' + listProdutosJSON.produtos[i].valor)
-        console.log('Cores: ')
-
-        if (listProdutosJSON.produtos[i].cores != undefined) {
-            for (let o = 0; o < listProdutosJSON.produtos[i].cores.lenght; o += 1) {
-                console.log(listProdutosJSON.produtos[i].cores[o])
-            }
-        } else {
-            console.log('Não possui')
-        }
-        
-        console.log('Modelos: ')
-
-        if (listProdutosJSON.produtos[i].modelos != undefined) {
-            for (let p = 0; p < listProdutosJSON.produtos[i].modelos.length; p+=1) {
-                console.log(listProdutosJSON.produtos.modelos[p])
-                
-            }
-        } else {
-            console.log('Não possui')
-        }
-
-    }
-
-    // listProdutosJSON.produtos.forEach((itemProduto) => {
-
-    //     console.log('Nome: ' + itemProduto.nome)
-    //     console.log('Marca: ' + itemProduto.marca)
-    //     console.log('Valor: ' + itemProduto.valor)
+    //     console.log('Nome: ' + listProdutosJSON.produtos[i].nome)
+    //     console.log('Marca: ' + listProdutosJSON.produtos[i].marca)
+    //     console.log('Valor: ' + listProdutosJSON.produtos[i].valor)
     //     console.log('Cores: ')
 
-    //     itemProduto.cores.forEach((itemCor) => {
-
-    //         console.log('****' + itemCor)
-
-    //     })
-
+    //     if (listProdutosJSON.produtos[i].cores != undefined) {
+    //         for (let o = 0; o < listProdutosJSON.produtos[i].cores.lenght; o += 1) {
+    //             console.log(listProdutosJSON.produtos[i].cores[o])
+    //         }
+    //     } else {
+    //         console.log('Não possui')
+    //     }
+        
     //     console.log('Modelos: ')
 
-    //     if(itemProduto.modelos != undefined) {
-    //         itemProduto.modelos.forEach((modelo) => {
-
-    //             console.log(modelo)
-
-    //         })
+    //     if (listProdutosJSON.produtos[i].modelos != undefined) {
+    //         for (let p = 0; p < listProdutosJSON.produtos[i].modelos.length; p+=1) {
+    //             console.log(listProdutosJSON.produtos.modelos[p])
+                
+    //         }
     //     } else {
-    //         console.log('Não possui \n')
+    //         console.log('Não possui')
     //     }
 
-    //     console.log('\n')
+    // }
 
-    // })
+    listProdutosJSON.produtos.forEach((itemProduto) => {
+
+        console.log('Nome: ' + itemProduto.nome)
+        console.log('Marca: ' + itemProduto.marca)
+        console.log('Valor: ' + itemProduto.valor)
+        console.log('Cores: ')
+
+        itemProduto.cores.forEach((itemCor) => {
+
+            console.log('****' + itemCor)
+
+        })
+
+        console.log('Modelos: ')
+
+        if(itemProduto.modelos != undefined) {
+            itemProduto.modelos.forEach((modelo) => {
+
+                console.log(modelo)
+
+            })
+        } else {
+            console.log('Não possui \n')
+        }
+
+        console.log('\n')
+
+    })
 
 }
 
