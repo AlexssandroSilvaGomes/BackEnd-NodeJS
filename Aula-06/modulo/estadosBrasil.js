@@ -1,4 +1,4 @@
-const estadosCidades = require('../estados_cidades.js')
+const estadosCidades = require('./estados_cidades.js')
 
 const getListaDeEstados = (lista) => {
 
@@ -45,7 +45,7 @@ const getDadosEstado = (lista, siglaEstado) => {
 
     lista.estados.forEach((estado) => {
 
-        if (estado.sigla == siglaEstado && estado.sigla != undefined) {
+        if (estado.sigla.toUpperCase() == siglaEstado.toUpperCase() && estado.sigla != undefined) {
 
             listaEstados.uf = estado.sigla
             listaEstados.descricao = estado.nome
@@ -80,7 +80,7 @@ const getCapitalEstado = (lista, siglaEstado) => {
 
     lista.estados.forEach((estado) => {
 
-        if (estado.sigla == siglaEstado && estado.sigla != undefined) {
+        if (estado.sigla.toUpperCase() == siglaEstado.toUpperCase() && estado.sigla != undefined) {
 
             listaEstados.uf = estado.sigla
             listaEstados.descricao = estado.nome
@@ -114,7 +114,7 @@ const getEstadosRegiao = (lista, regiao) => {
 
     lista.estados.forEach((estado) => {
 
-        if (estado.regiao == regiao && estado.regiao != undefined) {
+        if (estado.regiao.toUpperCase() == regiao.toUpperCase() && estado.regiao != undefined) {
 
             let listEstadosRegiao = {}
 
@@ -200,7 +200,7 @@ const getCidades = (lista, siglaEstado) => {
 
     lista.estados.forEach((estado) => {
 
-        if (estado.sigla == siglaEstado && estado.sigla != undefined) {
+        if (estado.sigla.toUpperCase() == siglaEstado.toUpperCase() && estado.sigla != undefined) {
 
             listaEstados.uf = estado.sigla
             listaEstados.descricao = estado.nome

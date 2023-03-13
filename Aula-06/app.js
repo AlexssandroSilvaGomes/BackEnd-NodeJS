@@ -20,6 +20,11 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
+//import das funções
+const estadosCidades = require('./modulo/estados_cidades.js')
+const funcs = require('./modulo/estadosBrasil.js')
+const { request } = require('express')
+
 //cria um objeto com as características do express
 const app = express()
 
@@ -41,20 +46,157 @@ app.use((request, response, next) => {
 })
 
 //EndPoints - cada requisição retorna um endPoint
-    //async - cria um estado de espera que faz com que o front não corte a comunicação com a API devido a demora no processamento do back
+//async - cria um estado de espera que faz com que o front não corte a comunicação com a API devido a demora no processamento do back
 
 //EndPoint para listar todos os estados
 app.get('/estados', cors(), async (request, response, next) => {
 
-    const estadosCidades = require('./modulo/estados_cidades.js')
-    const funcs = require('./modulo/estadosBrasil.js')
-    let estados = funcs.getListaDeEstados(estadosCidades.estadosCidades)
-    response.json(estados)
-    response.status(200)
-    response.json('{message: "testando a API"}')
+    let estados = funcs.getListaDeEstados(estadosCidades.estadosCidades, 'SP')
+
+    //Tratamento para validar o sucesso da requisição
+    if (estados) {
+        response.json(estados)
+        response.status(200)
+        response.json('{message: "testando a API"}')
+    } else {
+        response.status(500)
+        response.json()
+    }
 
 })
 
+//EndPoint para listar os dados do estado filtrando pela sigla do mesmo
+app.get('/estado/:uf', cors(), async (request, response, next) => {
+
+    //Recebe a sigla do estado que será enviado pela URL da requisição
+    let siglaEstado = request.params.uf
+    let statusCode;
+    let dadosEstado = {}
+
+    if (siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)) {
+        
+        statusCode = 400
+        dadosEstado.message = "Não foi possível processar, pois os dados de entrada (uf) que foi enviadoo não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
+
+    } else {
+        let estado = funcs.getDadosEstado(estadosCidades.estadosCidades, siglaEstado)
+        if (estado) {
+            statusCode = 200
+            dadosEstado = estado
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(dadosEstado)
+
+
+})
+
+//EndPoint para listar os dados da capital filtrando pela sigla do mesmo
+app.get('/capital/:uf', cors(), async (request, response, next) => {
+
+    //Recebe a sigla do estado que será enviado pela URL da requisição
+    let siglaEstado = request.params.uf
+    let statusCode;
+    let dadosEstado = {}
+
+    if (siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)) {
+        
+        statusCode = 400
+        dadosEstado.message = "Não foi possível processar, pois os dados de entrada (uf) que foi enviadoo não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
+
+    } else {
+        let estado = funcs.getCapitalEstado(estadosCidades.estadosCidades, siglaEstado)
+        if (estado) {
+            statusCode = 200
+            dadosEstado = estado
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(dadosEstado)
+
+})
+
+//Endpoint para listar os estados de uma região usando a região como parametro de busca
+app.get('/regiao/:regiao', cors(), async (request, response, next) => {
+
+    let regiaoEstado = request.params.regiao
+    let statusCode
+    let dadosEstado = {}
+
+    if (regiaoEstado == '' || regiaoEstado == undefined || !isNaN(regiaoEstado)) {
+
+        statusCode = 400
+        dadosEstado.message = "Não foi possível processar, pois os dados de entrada (uf) que foi enviadoo não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
+
+    } else {
+        let estado = funcs.getEstadosRegiao(estadosCidades.estadosCidades, regiaoEstado)
+        if (estado) {
+            statusCode = 200
+            dadosEstado = estado
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(dadosEstado)
+
+})
+
+//EndPoint que lista informações dos estados que já foram (ou é) a capital do Brasil
+app.get('/capital', cors(), async (request, response, next) => {
+
+    let capital = funcs.getCapitalPais(estadosCidades.estadosCidades)
+    let statusCode
+    let dadosEstado = {}
+
+    if (capital) {
+        statusCode = 200
+        dadosEstado = capital
+    } else {
+        statusCode = 500
+    }
+
+    response.status(statusCode)
+    response.json(dadosEstado)
+
+})
+
+//Endpoint que lista todas as cidades de um estado filtrando pela sigla
+app.get('/cidade/:uf', cors(), async (request, response, next) => {
+
+    let siglaEstado = request.params.uf
+    let statusCode
+    let dadosEstado = {}
+
+    if (siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)) {
+
+        statusCode = 400
+        dadosEstado.message = "Não foi possível processar, pois os dados de entrada (uf) que foi enviadoo não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
+
+    } else {
+        let cidade = funcs.getCidades(estadosCidades.estadosCidades, siglaEstado)
+        if (cidade) {
+            statusCode = 200
+            dadosEstado = cidade
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(dadosEstado)
+
+
+})
+
+//roda o serviço da API par aficar aguardando requisições
 app.listen(8080, () => {
     console.log('servidor aguardando requisões na porta 8080')
 })
