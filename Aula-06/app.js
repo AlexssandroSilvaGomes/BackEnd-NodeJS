@@ -204,9 +204,28 @@ app.get('/v2/senai/cidades', cors(), async (request, response, next) => {
             2 - QueryString (ou Query, apenas): permite receber uma ou mais variáveis para realizar filtros avançados.
     */
     //Recebe uma variável encaminhada via QueryString
-    let siglaEstado = request.query.uf
 
-    console.log(siglaEstado)
+    let siglaEstado = request.query.uf
+    let statusCode
+    let dadosCidades = {}
+
+    if (siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)) {
+
+        statusCode = 400
+        dadosEstado.message = "Não foi possível processar, pois os dados de entrada (uf) que foi enviadoo não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
+
+    } else {
+        let cidade = funcs.getCidades(estadosCidades.estadosCidades, siglaEstado)
+        if (cidade) {
+            statusCode = 200
+            dadosCidades = cidade
+        } else {
+            statusCode = 404
+        }
+    }
+
+    response.status(statusCode)
+    response.json(dadosCidades)
 
 })
 
