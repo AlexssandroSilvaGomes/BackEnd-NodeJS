@@ -169,7 +169,7 @@ app.get('/capital', cors(), async (request, response, next) => {
 })
 
 //Endpoint que lista todas as cidades de um estado filtrando pela sigla
-app.get('/cidade/:uf', cors(), async (request, response, next) => {
+app.get('/V1/cidades/estado/sigla/:uf', cors(), async (request, response, next) => {
 
     let siglaEstado = request.params.uf
     let statusCode
@@ -193,6 +193,20 @@ app.get('/cidade/:uf', cors(), async (request, response, next) => {
     response.status(statusCode)
     response.json(dadosEstado)
 
+
+})
+
+app.get('/v2/senai/cidades', cors(), async (request, response, next) => {
+
+    /*
+        OBS: existem duas opções para receber variáveis para filtro.
+            1 - params: permite receber a variável na estrutura da URL criada no EndPoint (utilizado para id (PK));
+            2 - QueryString (ou Query, apenas): permite receber uma ou mais variáveis para realizar filtros avançados.
+    */
+    //Recebe uma variável encaminhada via QueryString
+    let siglaEstado = request.query.uf
+
+    console.log(siglaEstado)
 
 })
 
