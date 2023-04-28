@@ -28,6 +28,9 @@ const controller_aluno = require('./controller/controller_aluno.js')
 //cria o objeto app conforme a classe do express
 const app = express()
 
+//define os dados que irão chegar no body da requisição será no padrão JSON
+const bodyParserJSON = bodyParser.json()
+
 //define as permissões do cors
 app.use((request, response, next) => {
     //define quem podera acessar a api
@@ -116,7 +119,16 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async (request, response) =>
 })
 
 //endpoint: insere um aluno(dado) novo
-app.post('/v1/lion-school/aluno', cors(), async (request, response) => {
+app.post('/v1/lion-school/aluno', cors(), bodyParserJSON, async (request, response) => {
+    
+    //recebe os dados encaminhados na requisição
+    let dadosBody = request.body
+
+    let resultDadosAluno = await controller_aluno.inserirAluno(dadosBody)
+
+    response.status(resultDadosAluno.status)
+    response.json(resultDadosAluno)
+
 
 })
 

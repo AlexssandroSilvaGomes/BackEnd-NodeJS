@@ -5,12 +5,33 @@
     Versão: 1.0
 */
 
+//import do arquivo de configuração das variáveis constanstes e funções
+const message = require('./modulo/config.js')
+
 //import do arquivo DAO para acessar dados do aluno no banco de dados
-let alunoDAO = require('../model/DAO/alunoDAO.js')
+const alunoDAO = require('../model/DAO/alunoDAO.js')
 
 //inserir um novo aluno
-const novoAluno = (dadosAluno) => {
-
+const inserirAluno = async (dadosAluno) => {
+    //validação para tratar campos obrigatórios e quantidade de caracteres
+    if(
+        dadosAluno.nome == ''            || dadosAluno.nome == undefined            || dadosAluno.nome.length > 100           ||
+        dadosAluno.rg == ''              || dadosAluno.rg == undefined              || dadosAluno.rg.length > 15              ||
+        dadosAluno.cpf == ''             || dadosAluno.cpf == undefined             || dadosAluno.cpf.length > 18             ||
+        dadosAluno.data_nascimento == '' || dadosAluno.data_nascimento == undefined || dadosAluno.data_nascimento.length > 10 ||
+        dadosAluno.email == ''           || dadosAluno.email == undefined           || dadosAluno.email.length > 255
+    ) {
+        return message.ERROR_REQUIRED_FIELDS //status code 400
+    } else {
+        //envia os dados para a model inserir no BD
+        let resultDadosALuno = await alunoDAO.insertAluno(dadosAluno)
+        //valida se o banco de dados inseriu corretamente os dados
+        if(resultDadosALuno) {
+            return message.SUCCESS_CREATED_ITEM //status code 201
+        } else {
+            return message.ERROR_INTERNAL_SERVER //status code 500
+        }
+    }
 }
 
 //atualiza um aluno existente
@@ -75,5 +96,6 @@ const getAlunoNome = async (nome) => {
 module.exports = {
     getAlunos,
     getBuscarAlunoId,
-    getAlunoNome
+    getAlunoNome,
+    inserirAluno
 }

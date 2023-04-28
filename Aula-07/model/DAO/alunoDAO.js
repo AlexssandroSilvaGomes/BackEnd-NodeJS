@@ -5,16 +5,40 @@
     Versão: 1.0
 */
 
-//import da biblioteca do prisma client
-let { PrismaClient } = require('@prisma/client')
 const { response } = require('express')
-    
+
+//import da biblioteca do prisma client
+const { PrismaClient } = require('@prisma/client')
+
 //instancia da classe PrismaClient
-let prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
 //inserir dados do aluno no banco de dados
-const insertAluno = (dadosAluno) => {
+const insertAluno = async (dadosAluno) => {
 
+    //ScriptSQL para inserir dados de um aluno no DB
+    let sql = `insert into tbl_aluno (
+                        nome, 
+                        rg, 
+                        cpf, 
+                        data_nascimento, 
+                        email
+                        ) values (
+                            '${dadosAluno.nome}',
+                            '${dadosAluno.rg}',
+                            '${dadosAluno.cpf}',
+                            '${dadosAluno.data_nascimento}',
+                            '${dadosAluno.email}'
+                        )`
+
+    let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+    //executa o script sql no BD
+    if(resultStatus) {
+        return true
+    } else {
+        return false
+    }
 }
 
 //atualiza um aluno existente
@@ -78,5 +102,6 @@ const selectByNomeAluno = async (nome) => {
 module.exports = {
     selectAllAlunos,
     selectByIdAluno,
-    selectByNomeAluno
+    selectByNomeAluno,
+    insertAluno
 }
