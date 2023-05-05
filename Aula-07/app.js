@@ -103,10 +103,6 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async (request, response) =>
     let statusCode
     let dadosAluno = {}
 
-    if (nome == '' || nome == undefined || !isNaN(nome)) {
-        statusCode = 400
-        dadosAluno.message = "Não foi possível processar. Confira o valor, pois não pode ser vazio e precisam ser caracteres."
-    } else {
         let dadosAlunoNome = await controller_aluno.getAlunoNome(nome)
         if (dadosAlunoNome) {
             statusCode = 200
@@ -114,10 +110,10 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async (request, response) =>
         } else {
             statusCode = 404
         }
-    }
-
+    
     response.status(statusCode)
     response.json(dadosAluno)
+    
 })
 
 //endpoint: insere um aluno(dado) novo
