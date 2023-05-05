@@ -25,6 +25,8 @@ const bodyParser = require('body-parser')
 const { response } = require('express')
 const controller_aluno = require('./controller/controller_aluno.js')
 
+const message = require('./controller/modulo/config.js')
+
 //cria o objeto app conforme a classe do express
 const app = express()
 
@@ -37,7 +39,7 @@ app.use((request, response, next) => {
     response.header('Access-Control-Allow-Origin', '*')
     //define quais métodos serão utilizados na api
     response.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    
+
     //atribui as permissões ao cors
     app.use(cors())
 
@@ -63,7 +65,7 @@ app.get('/v1/lion-school/aluno', cors(), async (request, response) => {
     let dadosAluno = await controllerAluno.getAlunos()
 
     //valida se existe registro de aluno
-    if(dadosAluno) {
+    if (dadosAluno) {
         response.json(dadosAluno)
         response.status(200)
     } else {
@@ -80,10 +82,10 @@ app.get('/v1/lion-school/aluno/:id', cors(), async (request, response) => {
 
     if (id == '' || id == undefined || id.length < 0 || isNaN(id)) {
         statusCode = 400
-        dadosAluno.message = "Não foi possível processar, pois os dados de entrada (id) que foi enviadoo não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
+        dadosAluno.message = "Não foi possível processar, pois os dados de entrada (id) que foi enviado não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
     } else {
         let dadosAlunoId = await controller_aluno.getBuscarAlunoId(id)
-        if(dadosAlunoId) {
+        if (dadosAlunoId) {
             statusCode = 200
             dadosAluno = dadosAlunoId
         } else {
@@ -106,7 +108,7 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async (request, response) =>
         dadosAluno.message = "Não foi possível processar. Confira o valor, pois não pode ser vazio e precisam ser caracteres."
     } else {
         let dadosAlunoNome = await controller_aluno.getAlunoNome(nome)
-        if(dadosAlunoNome) {
+        if (dadosAlunoNome) {
             statusCode = 200
             dadosAluno = dadosAlunoNome
         } else {
@@ -120,26 +122,59 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async (request, response) =>
 
 //endpoint: insere um aluno(dado) novo
 app.post('/v1/lion-school/aluno', cors(), bodyParserJSON, async (request, response) => {
-    
-    //recebe os dados encaminhados na requisição
-    let dadosBody = request.body
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
 
-    let resultDadosAluno = await controller_aluno.inserirAluno(dadosBody)
+    //validação para receber dados apenas no formato JSON
+    if (String(contentType).toLowerCase() == 'application/json') {
+        //recebe os dados encaminhados na requisição
+        let dadosBody = request.body
 
-    response.status(resultDadosAluno.status)
-    response.json(resultDadosAluno)
+        let resultDadosAluno = await controller_aluno.inserirAluno(dadosBody)
 
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
+    } else {
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status)
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
 
 })
 
 //endpoint: atualiza um aluno existente, filtrando pelo id
-app.put('/v1/lion-school/aluno/:id', cors(), async (request, response) => {
+app.put('/v1/lion-school/aluno/:id', cors(), bodyParserJSON, async (request, response) => {
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //validação para receber dados apenas no formato JSON
+    if (String(contentType).toLowerCase() == 'application/json') {
+
+        //recebe o id do aluno pelo paramentro
+        let idAluno = request.params.id
+        //recebe os dadso aluno encaminhado no corpo da requisição
+        let dadosBody = request.body
+
+        let resultDadosAluno = await controller_aluno.atualizarAluno(dadosBody, idAluno)
+
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
+
+    } else {
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status)
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
 
 })
 
 //endpoint: exclui um aluno, filtrando pelo id
 app.delete('/v1/lion-school/aluno/:id', cors(), async (request, response) => {
 
+    let id = request.params.id
+
+    let resultDadosAluno = await controller_aluno.deletarAluno(id)
+
+    response.status(resultDadosAluno.status)
+    response.json(resultDadosAluno)
 })
 
 app.listen(8080, () => {

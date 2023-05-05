@@ -13,9 +13,23 @@ const ERROR_INTERNAL_SERVER = {status: 500, message: 'Devido a um erro interno n
 
 /*  MENSAGENS DE SUCESSO */
 const SUCCESS_CREATED_ITEM = {status: 201, message: 'item criado com sucesso!'}
+const SUCCESS_UPDATED_ITEM = {status: 200, message: 'Item atualizado com sucesso.'}
+const SUCCESS_DELETED_ITEM = {status: 200, message: 'Item apagado com sucesso.'}
+
+/*  MENSAGENS DE ERRO NO ID */
+const ERROR_INVALID_ID = {status: 400, message: 'O id informado na requisição não é valido ou não foi encaminhado.'}
+const ERROR_ID_NOT_FOUND = {status: 404, message: 'O id informado na requisição é valido, mas não consta no banco de dados.'}
+
+/*  MENSAGENS DE ERRO NA REQUISIÇÃO */
+const ERROR_INVALID_CONTENT_TYPE = {status: 415, message: 'O tipo de midia content type da silicitação não é compatível com o servidor. Tipo aceito: [application/json]'}
 
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     ERROR_INTERNAL_SERVER,
-    SUCCESS_CREATED_ITEM
+    SUCCESS_CREATED_ITEM,
+    SUCCESS_UPDATED_ITEM,
+    SUCCESS_DELETED_ITEM,
+    ERROR_INVALID_ID,
+    ERROR_ID_NOT_FOUND,
+    ERROR_INVALID_CONTENT_TYPE
 }

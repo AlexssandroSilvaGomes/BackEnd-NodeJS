@@ -34,7 +34,7 @@ const insertAluno = async (dadosAluno) => {
     let resultStatus = await prisma.$executeRawUnsafe(sql)
 
     //executa o script sql no BD
-    if(resultStatus) {
+    if (resultStatus) {
         return true
     } else {
         return false
@@ -42,21 +42,46 @@ const insertAluno = async (dadosAluno) => {
 }
 
 //atualiza um aluno existente
-const updateAluno = (dadosAluno) => {
+const updateAluno = async (dadosAluno) => {
+    //scriptsql para atualizar os dados no db
+    let sql = `update tbl_aluno set
+                        nome = '${dadosAluno.nome}',
+                        rg = '${dadosAluno.rg}',
+                        cpf = '${dadosAluno.cpf}',
+                        data_nascimento = '${dadosAluno.data_nascimento}',
+                        email = '${dadosAluno.email}'
+                    where id = ${dadosAluno.id}
+    `
 
+    let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+    if (resultStatus) {
+        return true
+    } else {
+        return false
+    }
 }
 
 //deletar um aluno existente
-const deleteAluno = (id) => {
+const deleteAluno = async (id) => {
+    //scriptsql para atualizar os dados no db
+    let sql = `delete from tbl_aluno where id = ${id}`
 
+    let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+    if (resultStatus) {
+        return true
+    } else {
+        return false
+    }
 }
 
 //retorna a lista de todos os alunos
 const selectAllAlunos = async () => {
-    
+
     //ScriptSQL para buscar todos os itens no DB
     let sql = 'select * from tbl_aluno'
-    
+
 
     //$queryRawUnsafe(sql) - Permite interpretar uma variável como sendo um scriptSQL
     //$queryRaw(select * from tbl_aluno) - usa o comando diretamente
@@ -64,7 +89,7 @@ const selectAllAlunos = async () => {
     let rsAluno = await prisma.$queryRawUnsafe(sql)
 
     //valida se o DB retornou algum registro
-    if(rsAluno.length > 0) {
+    if (rsAluno.length > 0) {
         return rsAluno
     } else {
         return false
@@ -74,11 +99,11 @@ const selectAllAlunos = async () => {
 
 //retorna um aluno filtrando pelo id
 const selectByIdAluno = async (id) => {
-    
+
     let sql = 'select * from tbl_aluno where id=' + id
     let rsAlunoId = await prisma.$queryRawUnsafe(sql)
 
-    if(rsAlunoId.length > 0) {
+    if (rsAlunoId.length > 0) {
         return rsAlunoId
     } else {
         return false
@@ -91,7 +116,7 @@ const selectByNomeAluno = async (nome) => {
     let sql = "select * from tbl_aluno where nome like '%" + nome + "%'"
     let rsAlunoNome = await prisma.$queryRawUnsafe(sql)
 
-    if(rsAlunoNome.length > 0) {
+    if (rsAlunoNome.length > 0) {
         return rsAlunoNome
     } else {
         return false
@@ -103,5 +128,7 @@ module.exports = {
     selectAllAlunos,
     selectByIdAluno,
     selectByNomeAluno,
-    insertAluno
+    insertAluno,
+    updateAluno,
+    deleteAluno
 }
