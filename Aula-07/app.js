@@ -65,35 +65,21 @@ app.get('/v1/lion-school/aluno', cors(), async (request, response) => {
     let dadosAluno = await controllerAluno.getAlunos()
 
     //valida se existe registro de aluno
-    if (dadosAluno) {
-        response.json(dadosAluno)
-        response.status(200)
-    } else {
-        response.json()
-        response.status(404)
-    }
+    response.status(dadosAluno.status)
+    response.json(dadosAluno)
 })
 
 //endpoint: retorna todos os dados de alunos filtrando pelo id
 app.get('/v1/lion-school/aluno/:id', cors(), async (request, response) => {
     let id = request.params.id
-    let statusCode
     let dadosAluno = {}
 
-    if (id == '' || id == undefined || id.length < 0 || isNaN(id)) {
-        statusCode = 400
-        dadosAluno.message = "Não foi possível processar, pois os dados de entrada (id) que foi enviado não corresponde ao exigido. Confira o valor, pois não pode ser vazio, precisam ser caracteres e ter dois dígitos."
-    } else {
-        let dadosAlunoId = await controller_aluno.getBuscarAlunoId(id)
-        if (dadosAlunoId) {
-            statusCode = 200
-            dadosAluno = dadosAlunoId
-        } else {
-            statusCode = 404
-        }
-    }
 
-    response.status(statusCode)
+    let dadosAlunoId = await controller_aluno.getBuscarAlunoId(id)
+
+
+
+    response.status(dadosAluno.status)
     response.json(dadosAluno)
 
 })
@@ -103,17 +89,17 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async (request, response) =>
     let statusCode
     let dadosAluno = {}
 
-        let dadosAlunoNome = await controller_aluno.getAlunoNome(nome)
-        if (dadosAlunoNome) {
-            statusCode = 200
-            dadosAluno = dadosAlunoNome
-        } else {
-            statusCode = 404
-        }
-    
+    let dadosAlunoNome = await controller_aluno.getAlunoNome(nome)
+    if (dadosAlunoNome) {
+        statusCode = 200
+        dadosAluno = dadosAlunoNome
+    } else {
+        statusCode = 404
+    }
+
     response.status(statusCode)
     response.json(dadosAluno)
-    
+
 })
 
 //endpoint: insere um aluno(dado) novo

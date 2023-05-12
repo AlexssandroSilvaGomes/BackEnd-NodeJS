@@ -27,7 +27,12 @@ const inserirAluno = async (dadosAluno) => {
         let resultDadosALuno = await alunoDAO.insertAluno(dadosAluno)
         //valida se o banco de dados inseriu corretamente os dados
         if (resultDadosALuno) {
-            return message.SUCCESS_CREATED_ITEM //status code 201
+            let novoAluno = await alunoDAO.selectLastId()
+            let dadosAlunosJSON ={}
+            dadosAlunosJSON.status = message.SUCCESS_CREATED_ITEM.status
+            dadosAlunosJSON.message = message.SUCCESS_CREATED_ITEM.message
+            dadosAlunosJSON.aluno = novoAluno
+            return dadosAlunosJSON
         } else {
             return message.ERROR_INTERNAL_SERVER //status code 500
         }
@@ -53,29 +58,49 @@ const atualizarAluno = async (dadosAluno, idAluno) => {
         //adiciona o id do aluno no JSON dos dados
         dadosAluno.id = idAluno
 
-        let resultDadosALuno = await alunoDAO.updateAluno(dadosAluno)
+        let statusId = await alunoDAO.selectByIdAluno(idAluno)
 
-        if (resultDadosALuno) {
-            return message.SUCCESS_UPDATED_ITEM
+        if(statusId) {
+            let resultDadosALuno = await alunoDAO.updateAluno(dadosAluno)
+
+            if (resultDadosALuno) {
+                let alunoId = await alunoDAO.selectByIdAluno(idAluno)
+                let dadosAlunosJSON ={}
+                dadosAlunosJSON.status = message.SUCCESS_UPDATED_ITEM.status
+                dadosAlunosJSON.message = message.SUCCESS_UPDATED_ITEM.message
+                dadosAlunosJSON.aluno = alunoId
+                return dadosAlunosJSON
+            } else {
+                return message.ERROR_INTERNAL_SERVER
+            }
         } else {
-            return message.ERROR_INTERNAL_SERVER
+            return message.ERROR_NOT_FOUND
         }
+
+        
     }
 }
 
 //deletar um aluno existente
 const deletarAluno = async (idAluno) => {
-     else {
 
-    let resultDadosALuno = await alunoDAO.deleteAluno(idAluno)
+    let statusId = await alunoDAO.selectByIdAluno(idAluno)
 
-    if (resultDadosALuno) {
-        return message.SUCCESS_DELETED_ITEM
+    if(statusId) {
+        let resultDadosALuno = await alunoDAO.deleteAluno(idAluno)
+
+        if (resultDadosALuno) {
+            return message.SUCCESS_DELETED_ITEM
+        } else {
+            return message.ERROR_INTERNAL_SERVER
+        }
     } else {
-        return message.ERROR_INTERNAL_SERVER
+        return message.ERROR_NOT_FOUND
     }
+
+    
 }
-}
+
 
 //retorna a lista de todos os alunos
 const getAlunos = async () => {
@@ -87,11 +112,13 @@ const getAlunos = async () => {
 
     if (dadosAluno) {
         //criando o json com o atributo alunos para encaminhar um array de alunos
+        dadosAlunosJSON.status = message.SUCCESS_SUCCESS_REQUEST.status
+        dadosAlunosJSON.message = message.SUCCESS_SUCCESS_REQUEST.message
         dadosAlunosJSON.quantidade = dadosAluno.length
         dadosAlunosJSON.alunos = dadosAluno
         return dadosAlunosJSON
     } else {
-        return false
+        return message.ERROR_NOT_FOUND
     }
 
 }
@@ -108,7 +135,8 @@ const getBuscarAlunoId = async (idALuno) => {
         let dadosAluno = await alunoDAO.selectByIdAluno(idAluno)
 
         if (dadosAluno) {
-            dadosAlunosJSON.quantidade = dadosAluno.length
+            dadosAlunosJSON.status = message.SUCCESS_SUCCESS_REQUEST.status
+            dadosAlunosJSON.message = message.SUCCESS_SUCCESS_REQUEST.message
             dadosAlunosJSON.alunos = dadosAluno
             return dadosAlunosJSON
         } else {
@@ -124,11 +152,13 @@ const getAlunoNome = async (nome) => {
     let dadosAluno = await alunoDAO.selectByNomeAluno(nome)
 
     if (dadosAluno) {
+        dadosAlunosJSON.status = message.SUCCESS_SUCCESS_REQUEST.status
+        dadosAlunosJSON.message = message.SUCCESS_SUCCESS_REQUEST.message
         dadosAlunosJSON.quantidade = dadosAluno.length
         dadosAlunosJSON.alunos = dadosAluno
         return dadosAlunosJSON
     } else {
-        return false
+        return message.ERROR_NOT_FOUND
     }
 }
 

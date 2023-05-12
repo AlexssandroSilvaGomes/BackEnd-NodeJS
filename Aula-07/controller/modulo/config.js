@@ -10,11 +10,13 @@
 /*  MENSAGENS DE ERRO */
 const ERROR_REQUIRED_FIELDS = {status: 400, message: 'Campos obrigatórios não foram preenchidos!'}
 const ERROR_INTERNAL_SERVER = {status: 500, message: 'Devido a um erro interno no servidor, não foi possível processar a requisição.'}
+const ERROR_NOT_FOUND = {status: 404, message: 'Nenhum item encontrado na requisição'}
 
 /*  MENSAGENS DE SUCESSO */
 const SUCCESS_CREATED_ITEM = {status: 201, message: 'item criado com sucesso!'}
 const SUCCESS_UPDATED_ITEM = {status: 200, message: 'Item atualizado com sucesso.'}
 const SUCCESS_DELETED_ITEM = {status: 200, message: 'Item apagado com sucesso.'}
+const SUCCESS_SUCCESS_REQUEST = {status: 200, message: 'Requisição bem sucedida.'}
 
 /*  MENSAGENS DE ERRO NO ID */
 const ERROR_INVALID_ID = {status: 400, message: 'O id informado na requisição não é valido ou não foi encaminhado.'}
@@ -26,9 +28,11 @@ const ERROR_INVALID_CONTENT_TYPE = {status: 415, message: 'O tipo de midia conte
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     ERROR_INTERNAL_SERVER,
+    ERROR_NOT_FOUND,
     SUCCESS_CREATED_ITEM,
     SUCCESS_UPDATED_ITEM,
     SUCCESS_DELETED_ITEM,
+    SUCCESS_SUCCESS_REQUEST,
     ERROR_INVALID_ID,
     ERROR_ID_NOT_FOUND,
     ERROR_INVALID_CONTENT_TYPE
